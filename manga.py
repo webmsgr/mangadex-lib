@@ -1,5 +1,5 @@
 import cfscrape
-class Manga(): 
+class Manga():
     def __init__(self, id, downloadInfo=True, DownloadChapterInfo=False):
         self.id = id
         self.download = downloadInfo
