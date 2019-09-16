@@ -11,7 +11,6 @@ class Manga():
         self.scraper = cfscrape.create_scraper()
         if self.download:
             self.downloadinfo(DownloadChapterInfo)
-            
     def downloadinfo(self, downloadChapters=False):
         self.rawjson = self.scraper.get("https://mangadex.org/api/?id={}&type=manga".format(self.id)).json()
         self.json = self.rawjson["manga"]
@@ -67,5 +66,5 @@ def chapterfromid(id, getpages=False):
     chapter = jsn["chapter"]
     langcode = jsn["lang_code"]
     return getchapter(mangaid, langcode, chapter, getpages)
-    
+
 test()
