@@ -12,7 +12,7 @@ class Manga():
         if self.download:
             self.downloadinfo(DownloadChapterInfo)
             
-    def downloadinfo(self,downloadChapters=False):
+    def downloadinfo(self, downloadChapters=False):
         self.rawjson = self.scraper.get("https://mangadex.org/api/?id={}&type=manga".format(self.id)).json()
         self.json = self.rawjson["manga"]
         self.title = self.json["title"]
@@ -27,6 +27,8 @@ class Manga():
             if chapter.lang not in self.chapters[chapter.chapter]:
                 self.chapters[chapter.chapter][chapter.lang] = []
             self.chapters[chapter.chapter][chapter.lang].append(chapter)
+
+
 class Chapter():
     def __init__(self, id, json, download=False, scraper=cfscrape.create_scraper()):
         self.json = json
@@ -57,7 +59,7 @@ def getchapter(mangaid, langcode, chapnum, getpages=False):
 def getchapters(mangaid, langcode, chapnums, getpages=False):
     return [getchapter(mangaid, langcode, x, getpages) for x in chapnums]
 def test(mangaid=16617, langcode="gb"):
-    chaps = getchapters(mangaid, langcode,["1", "2"], True)
+    chaps = getchapters(mangaid, langcode, ["1", "2"], True)
     return [x.pages for x in chaps]
 def chapterfromid(id, getpages=False):
     jsn = cfscrape.create_scraper().get("https://mangadex.org/api/?id={}&type=chapter".format(id)).json()
