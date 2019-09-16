@@ -1,6 +1,6 @@
-import requests,cfscrape
+import cfscrape
 class Manga():
-    def __init__(self,id,downloadInfo=True,DownloadChapterInfo=False):
+    def __init__(self, id, downloadInfo=True, DownloadChapterInfo=False):
         self.id = id
         self.download = downloadInfo
         self.title = None
@@ -19,7 +19,7 @@ class Manga():
         self.description = self.json["description"]
         self.artist = self.json["artist"]
         self.author = self.json["author"]
-        chapters = [Chapter(x,self.rawjson["chapter"][x],downloadChapters,self.scraper) for x in self.rawjson["chapter"]]
+        chapters = [Chapter(x, self.rawjson["chapter"][x], downloadChapters, self.scraper) for x in self.rawjson["chapter"]]
         self.chapters = {}
         for chapter in chapters:
             if chapter.chapter not in self.chapters:
@@ -28,7 +28,7 @@ class Manga():
                 self.chapters[chapter.chapter][chapter.lang] = []
             self.chapters[chapter.chapter][chapter.lang].append(chapter)
 class Chapter():
-    def __init__(self,id,json,download=False,scraper=cfscrape.create_scraper()):
+    def __init__(self, id, json, download=False, scraper=cfscrape.create_scraper()):
         self.json = json
         self.id = id
         self.volume = self.json["volume"]
@@ -48,22 +48,22 @@ class Chapter():
         if self.server == "/data/":
             self.server = "https://mangadex.org/data/"
         self.pages = [self.server+self.hash+"/"+x for x in downloadedjson["page_array"]]
-def getchapter(mangaid,langcode,chapnum,getpages=False):
+def getchapter(mangaid, langcode, chapnum, getpages=False):
     man = Manga(mangaid)
     chap = man.chapters[chapnum][langcode][0]
     if getpages:
         chap.getpages()
     return chap
-def getchapters(mangaid,langcode,chapnums,getpages=False):
-    return [getchapter(mangaid,langcode,x,getpages) for x in chapnums]
-def test(mangaid=16617,langcode="gb"):
-    chaps = getchapters(mangaid,langcode,["1","2"],True)
+def getchapters(mangaid, langcode, chapnums, getpages=False):
+    return [getchapter(mangaid, langcode, x, getpages) for x in chapnums]
+def test(mangaid=16617, langcode="gb"):
+    chaps = getchapters(mangaid, langcode,["1", "2"], True)
     return [x.pages for x in chaps]
-def chapterfromid(id,getpages=False):
+def chapterfromid(id, getpages=False):
     jsn = cfscrape.create_scraper().get("https://mangadex.org/api/?id={}&type=chapter".format(id)).json()
     mangaid = jsn["manga_id"]
     chapter = jsn["chapter"]
     langcode = jsn["lang_code"]
-    return getchapter(mangaid,langcode,chapter,getpages)
+    return getchapter(mangaid, langcode, chapter, getpages)
     
 test()
