@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 setup(
     name="mangadexlib",
     version="0.1",
-    python_requires="3",
+    python_requires=">3.6",
     packages=find_packages("src"),
     install_requires=['cfscrape'],
     package_dir={'':'src'},
