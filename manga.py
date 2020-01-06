@@ -12,7 +12,7 @@ class Manga():
         if self.download:
             self.downloadinfo(DownloadChapterInfo)
     def downloadinfo(self, downloadChapters=False):
-        self.rawjson = self.scraper.get("https://mangadex.org/api/?id={}&type=manga".format(self.id)).json()
+        self.rawjson = self.scraper.get("https://mangadex.org/api/manga/{}".format(self.id)).json()
         self.json = self.rawjson["manga"]
         self.title = self.json["title"]
         self.description = self.json["description"]
@@ -43,11 +43,11 @@ class Chapter():
         if download:
             self.getpages()
     def getpages(self):
-        downloadedjson = self.scraper.get("https://mangadex.org/api/?id={}&type=chapter".format(self.id)).json()
+        downloadedjson = self.scraper.get("https://mangadex.org/api/chapter/{}".format(self.id)).json()
         self.hash = downloadedjson["hash"]
         self.server = downloadedjson["server"]
-        if self.server == "/data/":
-            self.server = "https://mangadex.org/data/"
+        if not "mangadex.org" in self.server:
+            self.server = "https://mangadex.org"+self.server
         self.pages = [self.server+self.hash+"/"+x for x in downloadedjson["page_array"]]
 def getchapter(mangaid, langcode, chapnum, getpages=False):
     man = Manga(mangaid)
