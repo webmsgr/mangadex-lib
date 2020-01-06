@@ -46,7 +46,7 @@ class Chapter():
         downloadedjson = self.scraper.get("https://mangadex.org/api/chapter/{}".format(self.id)).json()
         self.hash = downloadedjson["hash"]
         self.server = downloadedjson["server"]
-        if not "mangadex.org" in self.server:
+        if "mangadex.org" not in self.server:
             self.server = "https://mangadex.org"+self.server
         self.pages = [self.server+self.hash+"/"+x for x in downloadedjson["page_array"]]
 def getchapter(mangaid, langcode, chapnum, getpages=False):
