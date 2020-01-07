@@ -3,9 +3,10 @@ from setuptools import setup
 
 setup(
     name="mangadexlib",
-    version="0.2",
+    version="0.2.1",
     python_requires=">3.6",
     author="webmsgr",
+    author_email="zapcontact000@gmail.com",
     packages=find_packages("src"),
     install_requires=["cfscrape"],
     extras_require={"mangasync": ["numpy"]},
