@@ -1,5 +1,12 @@
 import cfscrape
 
+PROTOCAL = "https"
+MANGADEX_DOMAIN = "mangadex.org"
+MANGADEX_URL = "{}://{}".format(PROTOCAL, MANGADEX_DOMAIN)
+MANGADEX_API = "/{}/api/".format(MANGADEX_URL)
+MANGADEX_MANGA = MANGADEX_API + "manga/"
+MANGADEX_CHAPTER = MANGADEX_API + "chapter/"
+
 
 class Manga:
     def __init__(self, id, downloadInfo=True, DownloadChapterInfo=False):
@@ -15,8 +22,7 @@ class Manga:
             self.downloadinfo(DownloadChapterInfo)
 
     def downloadinfo(self, downloadChapters=False):
-        self.rawjson = self.scraper.get(
-            "https://mangadex.org/api/manga/{}".format(self.id)).json()
+        self.rawjson = self.scraper.get(MANGADEX_MANGA + str(self.id)).json()
         self.json = self.rawjson["manga"]
         self.title = self.json["title"]
         self.description = self.json["description"]
@@ -51,8 +57,7 @@ class Chapter:
             self.downloadcontent()
 
     def downloadcontent(self):
-        self.json = self.scraper.get(
-            "https://mangadex.org/api/chapter/{}".format(self.id)).json()
+        self.json = self.scraper.get(MANGADEX_CHAPTER + str(self.id)).json()
         self._populate(True)
 
     def _populate(self, isTarget=False):
@@ -66,8 +71,8 @@ class Chapter:
         if isTarget:
             self.hash = self.json["hash"]
             self.server = self.json["server"]
-            if "mangadex.org" not in self.server:
-                self.server = "https://mangadex.org" + self.server
+            if MANGADEX_DOMAIN not in self.server:
+                self.server = MANGADEX_URL + self.server
             self.pages = [
                 self.server + self.hash + "/" + x
                 for x in self.json["page_array"]
