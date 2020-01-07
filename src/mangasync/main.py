@@ -8,7 +8,8 @@ import threading
 # addchapter <folder> <pattern>: add chapter(s) to sync
 # sync <folder>: sync a folder
 # removechapter <folder> <pattern>: remove chapter(s) to sync
-
+# @todo add commands
+# @body [ ] init  [ ] addchapter  [ ] sync  [ ] removechapter
 class SyncedManga(mangadex.Manga):
     def __init__(self,id,remote=False):
         super().__init__(id,remote,False)
