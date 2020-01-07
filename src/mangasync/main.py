@@ -2,7 +2,7 @@ import argparse
 import sys
 import shlex
 import mangadex
-
+import threading
 # Commands for the interface
 # init <mangaid> <folder>: setup a folder to sync a manga, defaulting to sync all chapters
 # addchapter <folder> <pattern>: add chapter(s) to sync
