@@ -1,4 +1,5 @@
 import sys
+import mangadex
 try:
     import numpy as np
 except ImportError:
