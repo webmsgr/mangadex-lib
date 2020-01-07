@@ -76,7 +76,7 @@ class Chapter:
 
 def getmangachapter(mangaid, langcode, chapnum, getpages=False):
     man = Manga(mangaid, True, getpages)
-    chap = man.chapters[chapnum][langcode][0]
+    chap = man.chapters[str(chapnum)][langcode][0]
     return chap
 
 
