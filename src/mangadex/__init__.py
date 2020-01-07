@@ -23,9 +23,13 @@ class Manga:
         self.artist = self.json["artist"]
         self.author = self.json["author"]
         chapters = [
-            Chapter(x, self.rawjson["chapter"][x], downloadChapters,
-                    self.scraper) for x in self.rawjson["chapter"]
+            Chapter(x, downloadChapters, self.scraper)
+            for x in self.rawjson["chapter"]
         ]
+        if not downloadChapters:
+            for chapter in chapters:
+                chapter.json = self.rawjson["chapter"][chapter.id]
+                chapter._populate(False)
         self.chapters = {}
         for chapter in chapters:
             if chapter.chapter not in self.chapters:
@@ -38,56 +42,53 @@ class Manga:
 class Chapter:
     def __init__(self,
                  id,
-                 json,
-                 download=False,
+                 downloadInfo=True,
                  scraper=cfscrape.create_scraper()):
-        self.json = json
         self.id = id
+        self.scraper = scraper
+        self.json = {}
+        if downloadInfo:
+            self.downloadcontent()
+
+    def downloadcontent(self):
+        self.json = self.scraper.get(
+            "https://mangadex.org/api/chapter/{}".format(self.id)).json()
+        self._populate(True)
+
+    def _populate(self, isTarget=False):
         self.volume = self.json["volume"]
         self.chapter = self.json["chapter"]
         self.lang = self.json["lang_code"]
         self.title = self.json["title"]
         self.group_id = self.json["group_id"]
         self.group_name = self.json["group_name"]
-        self.scraper = scraper
         self.pages = []
-        if download:
-            self.getpages()
-
-    def getpages(self):
-        downloadedjson = self.scraper.get(
-            "https://mangadex.org/api/chapter/{}".format(self.id)).json()
-        self.hash = downloadedjson["hash"]
-        self.server = downloadedjson["server"]
-        if "mangadex.org" not in self.server:
-            self.server = "https://mangadex.org" + self.server
-        self.pages = [
-            self.server + self.hash + "/" + x
-            for x in downloadedjson["page_array"]
-        ]
+        if isTarget:
+            self.hash = self.json["hash"]
+            self.server = self.json["server"]
+            if "mangadex.org" not in self.server:
+                self.server = "https://mangadex.org" + self.server
+            self.pages = [
+                self.server + self.hash + "/" + x
+                for x in self.json["page_array"]
+            ]
 
 
-def getchapter(mangaid, langcode, chapnum, getpages=False):
-    man = Manga(mangaid)
+def getmangachapter(mangaid, langcode, chapnum, getpages=False):
+    man = Manga(mangaid, True, getpages)
     chap = man.chapters[chapnum][langcode][0]
-    if getpages:
-        chap.getpages()
     return chap
 
 
-def getchapters(mangaid, langcode, chapnums, getpages=False):
-    return [getchapter(mangaid, langcode, x, getpages) for x in chapnums]
+def getmangachapters(mangaid, langcode, chapnums, getpages=False):
+    return [
+        getmangachapter(mangaid, langcode, str(x), getpages) for x in chapnums
+    ]
 
 
 def test(mangaid=16617, langcode="gb"):
-    chaps = getchapters(mangaid, langcode, ["1", "2"], True)
+    chaps = getmangachapters(mangaid, langcode, [1, 2], True)
     return [x.pages for x in chaps]
-
-
-def chapterfromid(id, getpages=False):
-    scraper = cfscrape.create_scraper()
-    jsn = scraper.get("https://mangadex.org/api/chapter/{}".format(id)).json()
-    return Chapter(id, jsn, getpages, scraper)
 
 
 test()
