@@ -17,6 +17,7 @@ class SyncedManga(mangadex.Manga):
         deleted = []
         changed = []
         added = []
+        # @todo remove all chapters that dont fit the patterns
         for chapter in self.chapters:
             for lang in self.chapters[chapter]:
                 if lang != langcode:
