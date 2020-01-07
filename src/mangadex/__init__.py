@@ -91,9 +91,9 @@ def getmangachapters(mangaid, langcode, chapnums, getpages=False):
     ]
 
 
-def test(mangaid=16617, langcode="gb"):
+def Infotest(mangaid=16617, langcode="gb"):
     chaps = getmangachapters(mangaid, langcode, [1, 2], True)
     return [x.pages for x in chaps]
 
-
-test()
+def runTests(mangaid=16617, langcode="gb"):
+    Infotest(mangaid,langcode)
