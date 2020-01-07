@@ -9,6 +9,5 @@ setup(
     install_requires=["cfscrape"],
     package_dir={"": "src"},
     author="webmsgr",
-    description=
-    "Small module for getting info about manga and chapters on Mangadex",
+    description="Small module for getting info about manga and chapters on Mangadex",
 )
