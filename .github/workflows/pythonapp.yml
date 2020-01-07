@@ -28,7 +28,7 @@ jobs:
     - name: Install module into environment
       run: |
         python3 setup.py install
-        mangasync
+        echo quit | mangasync
     - name: Create package
       run: |
         pip3 install --upgrade wheel
