@@ -5,6 +5,7 @@ setup(
     name="mangadexlib",
     version="0.2",
     python_requires=">3.6",
+    author="webmsgr",
     packages=find_packages("src"),
     install_requires=["cfscrape"],
     extras_require={
