@@ -8,13 +8,10 @@ setup(
     author="webmsgr",
     packages=find_packages("src"),
     install_requires=["cfscrape"],
-    extras_require={
-        'mangasync':  ["numpy"]
-    },
+    extras_require={"mangasync": ["numpy"]},
     entry_points={
-        'console_scripts': [
-            'mangasync = mangasync:main [mangasync]'
-        ]},
+        "console_scripts": ["mangasync = mangasync:main [mangasync]"]
+    },
     url="https://github.com/webmsgr/mangadex-lib",
     package_dir={"": "src"},
     description="Various Mangadex tools",
