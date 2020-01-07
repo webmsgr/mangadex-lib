@@ -17,7 +17,7 @@ except ImportError:
         'This module requires extra requirements, install the extra "mangasync" to install these packages'
     )
     sys.exit(1)
-def help(_):
+def helpcommand(_):
     print("""init <mangaid> <folder>: setup a folder to sync a manga, defaulting to sync all chapters
 addchapter <folder> <pattern>: add chapter(s) to sync
 sync <folder>: sync a folder
@@ -27,7 +27,7 @@ def invalidcommand(_):
     print("invalid command")
     return
 commands = {
-"help":help
+"help":helpcommand
 }
 def main():
     cmd = ""
