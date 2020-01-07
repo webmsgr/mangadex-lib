@@ -10,6 +10,10 @@ setup(
     extras_require={
         'mangasync':  ["numpy"]
     },
+    entry_points={
+        'console_scripts': [
+            'foo = mangasync:main [mangasync]'
+        ]},
     url="https://github.com/webmsgr/mangadex-lib",
     package_dir={"": "src"},
     description="Various Mangadex tools",
