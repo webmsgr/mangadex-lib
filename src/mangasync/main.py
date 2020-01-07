@@ -9,7 +9,22 @@ import mangadex
 # sync <folder>: sync a folder
 # removechapter <folder> <pattern>: remove chapter(s) to sync
 
-
+class SyncedManga(mangadex.Manga):
+    def __init__(self,id,remote=False):
+        super().__init__(id,remote,False)
+    def changes(self,changed):
+        deleted = []
+        changed = []
+        added = []
+        for chapter in self.chapters:
+            for lang in self.chapters[chapter]:
+                for num,group in enumerate(self.chapters[chapter][lang]):
+                    try:
+                        if not changed.chapters[chapter][lang][num] == group:
+                            changed.append("{}:{}:{}".format(chapter,lang,num))
+                    except IndexError:
+                        deleted.append("{}:{}:{}".format(chapter,lang,num)) # @todo add added chapter
+        return (deleted,changed,added)          
 try:
     import numpy as np
 except ImportError:
@@ -26,6 +41,7 @@ removechapter <folder> <pattern>: remove chapter(s) to sync""")
 def invalidcommand(_):
     print("invalid command")
     return
+
 commands = {
 "help":helpcommand
 }
