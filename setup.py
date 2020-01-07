@@ -12,7 +12,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'foo = mangasync:main [mangasync]'
+            'mangasync = mangasync:main [mangasync]'
         ]},
     url="https://github.com/webmsgr/mangadex-lib",
     package_dir={"": "src"},
