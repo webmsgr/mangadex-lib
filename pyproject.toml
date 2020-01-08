@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "mangadexlib"
+version = "0.2.1"
+description = "Various Mangadex tools"
+license = "MIT"
+readme = "README.md"
+authors = [
+"webmsgr <zapcontact000@gmail.com>"
+]
+packages = [
+    { include = "mangadex", from = "src"},
+    { include = "mangasync", from = "src" },
+]
+classifiers=[
+        "Operating System :: OS Independent"
+]
+[tool.poetry.dependencies]
+python = "^3.6"
+cfscrape = "^2.0.8"
+numpy = { version = "^1.18.0", optional = true }
+
+[tool.poetry.extras]
+mangasync = ["numpy"]
+[tool.poetry.scripts]
+poetry = 'mangasync:main'
