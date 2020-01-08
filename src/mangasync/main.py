@@ -1,6 +1,6 @@
 import argparse
 import sys
-import shlex
+#import shlex
 import mangadex
 import threading
 # Commands for the interface
@@ -50,12 +50,5 @@ commands = {
 "help":helpcommand
 }
 def main():
-    cmd = ""
-    while cmd.lower() != "quit":
-        cmd = input(">").lower()
-        if cmd != "quit":
-            commandandargs = shlex.parse(cmd)
-            command = commandandargs.pop(0)
-            args = commandandargs
-            commands.get(command,invalidcommand)(args)
+    parser = argparse.ArgumentParser()
             
