@@ -43,8 +43,8 @@ def main():
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(help='sub-command help')
     initparser = subparsers.add_parser('init', help='initilize a manga sync')
-    initparser.add_argument("mangaid",type=int)
-    initparser.add_argument("folder")
+    initparser.add_argument("mangaid",type=int,help="The id of the manga to sync")
+    initparser.add_argument("folder",help="folder to store the manga")
     initparser.set_defaults(func=init)
     args = parser.parse_args()
     
