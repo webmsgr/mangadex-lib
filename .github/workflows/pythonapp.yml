@@ -28,6 +28,7 @@ jobs:
     - name: Install module into environment
       run: |
         poetry install -E mangasync
+        poetry run mangasync -h
     - name: Create package
       run: |
         pip3 install --upgrade wheel
