@@ -36,19 +36,15 @@ except ImportError:
         'This module requires extra requirements, install the extra "mangasync" to install these packages'
     )
     sys.exit(1)
-def helpcommand(_):
-    print("""init <mangaid> <folder>: setup a folder to sync a manga, defaulting to sync all chapters
-addchapter <folder> <pattern>: add chapter(s) to sync
-sync <folder>: sync a folder
-removechapter <folder> <pattern>: remove chapter(s) to sync""")
-    return
-def invalidcommand(_):
-    print("invalid command")
-    return
+def init(args):
+    pass
 
-commands = {
-"help":helpcommand
-}
 def main():
     parser = argparse.ArgumentParser()
-            
+    subparsers = parser.add_subparsers(help='sub-command help')
+    initparser = subparsers.add_parser('init', help='initilize a manga sync')
+    initparser.add_argument("mangaid",type=int)
+    initparser.add_argument("folder")
+    initparser.set_defaults(func=init)
+    args = parser.parse_args()
+    
