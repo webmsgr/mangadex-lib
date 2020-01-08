@@ -22,4 +22,4 @@ numpy = { version = "^1.18.0", optional = true }
 [tool.poetry.extras]
 mangasync = ["numpy"]
 [tool.poetry.scripts]
-poetry = 'mangasync:main'
+mangasync = 'mangasync:main'
